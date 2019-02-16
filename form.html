@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Resume form</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body id="form">
+	<div class="main">
+<!--this is for carrier objectives -->
+	<div class="sub">
+		<h1>Carrier Objective</h1>
+		<label for="career">
+		<select id="career" name="career">
+			<option>Select Carrier objective</option>
+			<option>Front end developer</option>
+			<option>back end developer</option>
+			<option>data scientist </option>
+			<option>others..</option>
+		</select></label>
+	</div>
+	<div class="sub-1">
+		<h1>Personal Information</h1>
+		<label for="name"><input type="text" name="name: "id="name" placeholder="enter your name"></label><br>
+		<label for="mobile"><input type="number" name="mobile: "id="mobile" placeholder="enter your mobile no"></label><br>
+		<label for="email"><input type="text" name="email: "id="email" placeholder="enter your email id"></label>
+	</div>
+	<!--PG Details-->
+	<div class="sub-1">
+		<h2>PG Details</h2>
+		<label for="pdegree">
+		<select id="pdegree" name="pdegree">
+			<option>Degree</option>
+			<option>M.tech</option>
+			<option>MCA</option>
+			<option>MBA</option>
+			<option>Msc</option>
+		</select></label><br>
+	
+		<label for="pinstitute"><input type="text
+			" name="institute: "id="pinstitute" placeholder="enter your Institute name"></label><br>
+		
+		<label for="ppercentage"><input type="number" name="percentage: "id="ppercentage" placeholder="enter your percentage"></label><br>
+		
+		<label for="pyear"><input type="number" name="year: "id="pyear" placeholder="enter your year of passing"></label>
+	</div>
+	<!--Graduation Details-->
+	<div class="sub-1">
+		<h2>Graduation Details</h2>
+		<label for="gdegree">
+		<select id="gdegree" name="gdegree">
+			<option>Degree</option>
+			<option>B.tech</option>
+			<option>MCA</option>
+		</select></label><br>
+		
+		<label for="ginstitute"><input type="text" name="institute: "id="ginstitute" placeholder="enter your Institute name"></label><br>
+		
+		<label for="gpercentage"><input type="number" name="percentage: "id="gpercentage" placeholder="enter your percentage"></label><br>
+		
+		<label for="gyear"><input type="text" name="year: "id="gyear" placeholder="enter your year of passing"></label>
+<!--intermediate details-->
+	</div>
+	<div class="sub-1">
+		<h2>Intermediate Details</h2>
+		<label for="idegree"></label>
+		<select id="idegree" name="idegree">
+			<option>Degree</option>
+			<option>MPC</option>
+			<option>BiPc</option>
+		</select></label><br>
+		
+		<label for="iinstitute"><input type="text" name="institute: "id="iinstitute" placeholder="enter your Institute name"></label><br>
+		
+		<label for="ipercentage"><input type="number" name="percentage: "id="ipercentage" placeholder="enter your percentage"></label><br>
+		
+		<label for="iyear"><input type="number" name="year: "id="iyear" placeholder="enter your year of passing"></label>
+
+	</div>
+	<!-- SSC  Education details-->
+	<div class="sub-1">
+		<h2>10th Details</h2>
+		<label for="sdegree">
+		<select id="sdegree" name="sdegree">
+			<option>Degree</option>
+			<option>SSC</option>
+			<option>CBSC</option>
+			<option>ICISC</option>
+		</select></label><br>
+		<label for="sinstitute"><input type="text" name="institute: "id="sinstitute" placeholder="enter your Institute name"></label><br>
+		
+		<label for="spercentage"><input type="number" name="percentage: "id="spercentage" placeholder="enter your percentage"></label><br>
+		
+		<label for="syear"><input type="number" name="year: "id="syear" placeholder="enter your passing year"></label>
+		
+	</div>
+
+</div>
+<button type="button" id="button" name="button" onclick="submitdata()">Submit</button>
+
+</body>
+</html>
+<script type="text/javascript">
+	function submitdata()
+	{
+	var career=document.getElementById("career").value;
+	var name=document.getElementById("name").value;
+	var mobile=document.getElementById("mobile").value;
+	var email=document.getElementById("email").value;
+
+	var pdegree=document.getElementById("pdegree").value;
+	var pinstitute=document.getElementById("pinstitute").value;
+	var ppercentage=document.getElementById("ppercentage").value;
+	var pyear=document.getElementById("pyear").value;
+
+	var gdegree=document.getElementById("gdegree").value;
+	var ginstitute=document.getElementById("ginstitute").value;
+	var gpercentage=document.getElementById("gpercentage").value;
+	var gyear=document.getElementById("gyear").value;
+	
+	var idegree=document.getElementById("idegree").value;
+	var iinstitute=document.getElementById("iinstitute").value;
+	var ipercentage=document.getElementById("ipercentage").value;
+	var iyear=document.getElementById("iyear").value;
+
+	var sdegree=document.getElementById("sdegree").value;
+	var sinstitute=document.getElementById("sinstitute").value;
+	var spercentage=document.getElementById("spercentage").value;
+	var syear=document.getElementById("syear").value;
+ 
+ var indexedDB=window.indexedDB ||window.mozIndexedDB || window.msIndexedDB ||window.webkitIndexedDB;
+ 
+ var store;
+ var open;
+ var tx;
+ var result;
+     
+     var request=indexedDB.open("database",1);
+     request.onupgradeneeded=function(e){
+       open=e.target.result;
+       store=open.createObjectStore("resumedata",{keyPath:"name"});
+              }
+     request.onerror=function(e){
+     	console.log("error"+e);
+
+     }
+ request.onsuccess=function(e){
+ 	open=e.target.result;
+ 	tx=open.transaction("resumedata",'readwrite');
+ 	store=tx.objectStore("resumedata");
+ 	store.put({
+ 		career:career,
+ 		name:name,
+ 		mobile:mobile,
+ 		email:email,
+ 		education:[
+ 		{
+             degree:pdegree,
+             institute:pinstitute,
+             percentage:ppercentage,
+             year:pyear
+ 		},
+ 		{
+ 			degree:gdegree,
+ 			institute:ginstitute,
+ 			percentage:gpercentage,
+ 			year:gyear
+
+ 		},
+ 		{
+ 			degree:idegree,
+	        institute:iinstitute,
+	        percentage:ipercentage,
+	        year:iyear
+ 		},
+ 		{
+ 			degree:sdegree,
+ 			institute:sinstitute,
+ 			percentage:spercentage,
+ 			year:syear
+ 		}
+
+ 		]
+ 	});
+
+   } 
+   window.open("index.html","_self");
+}
+</script>
+ 
